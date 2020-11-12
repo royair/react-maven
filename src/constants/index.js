@@ -1,5 +1,3 @@
-/*RATES*/
-export default {};
 
 export const TEAMS = [
   {
