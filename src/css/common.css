@@ -1,0 +1,100 @@
+h1 {
+  color: inherit;
+}
+
+h2 {
+  color: inherit;
+}
+
+h3 {
+  color: inherit;
+  font-size: 22px;
+}
+
+h4 {
+  color: inherit;
+}
+
+h5 {
+  color: inherit;
+}
+
+h6 {
+  color: inherit;
+}
+
+label {
+  color: inherit;
+}
+
+hr {
+  height: 1px !important;
+  border: none;
+  background-color: var(--grey-70);
+}
+
+.relative {
+  position: relative;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.uppercase {
+  text-transform: uppercase
+}
+
+.noscroll {
+  overflow: hidden;
+}
+
+.noscroll-y {
+  overflow-y: hidden;
+}
+
+.noscroll-x {
+  overflow-x: hidden;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.display-none {
+  display: none;
+}
