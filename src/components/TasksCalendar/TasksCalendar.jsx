@@ -119,7 +119,8 @@ const TasksCalendar = observer(() => {
 });
 
 const Container = styled.div`
-
+   margin-top: 200px;
+   
   .tasks-table {
     border: 1px solid black;
     

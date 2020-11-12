@@ -14,8 +14,7 @@ const App = observer(() => {
 
 const Container = styled.div`
   display: flex;  
-  justify-content: center;
-  margin-top: 200px;
+  justify-content: center;  
   width: 100%;
   height: 100%;
 `;
