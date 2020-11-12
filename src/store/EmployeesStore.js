@@ -27,8 +27,8 @@ export default class EmployeesStore {
     forEach(team, (employee) => employee.setIsSelected(value));
   };
 
-  @action setIsSelectedToAll = () => {
-    forEach(this.employees, (employee) => employee.setIsSelected(true));
+  @action setIsSelectedToAll = (value) => {
+    forEach(this.employees, (employee) => employee.setIsSelected(value));
   };
 
   @computed get filtersState() {
@@ -38,49 +38,56 @@ export default class EmployeesStore {
         name: 'Sales',
         color: 'magenta',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'marketing': {
         id: 'marketing',
         name: 'Marketing',
         color: 'red',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'cc': {
         id: 'cc',
         name: 'CC',
         color: 'volcano',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'product': {
         id: 'product',
         name: 'Product',
         color: 'orange',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'hr': {
         id: 'hr',
         name: 'HR',
         color: 'gold',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'r&d': {
         id: 'r&d',
         name: 'R&D',
         color: 'lime',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       },
       'research': {
         id: 'research',
         name: 'Research',
         color: 'green',
         checked: false,
-        indeterminate: false
+        indeterminate: false,
+        disabled: true
       }
     };
 
@@ -99,6 +106,8 @@ export default class EmployeesStore {
       if (allSelected) state[key].checked = true;
       if (noneSelected) state[key].checked = false;
       if (!allSelected && !noneSelected) state[key].indeterminate = true;
+
+      state[key].disabled = false;
     });
 
     return state;

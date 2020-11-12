@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import { map } from 'lodash';
 import moment from 'moment';
-import { Checkbox, Switch } from 'antd';
+import { Button, Checkbox, Switch } from 'antd';
 
 import EmployeeName from './EmployeeName';
 import { useStores } from '../../hooks/useStores';
-import { TEAMS } from '../../constants/';
 
 const TasksCalendar = observer(() => {
   const { employeesStore }                      = useStores();
@@ -38,6 +37,10 @@ const TasksCalendar = observer(() => {
       teamId: teamId,
       value: e.target.checked
     });
+  };
+
+  const onChangeAllFilters = (value) => {
+    employeesStore.setIsSelectedToAll(value);
   };
 
   const employeeTrElem = map(employeesStore.employees, ((employee) => (
@@ -75,15 +78,34 @@ const TasksCalendar = observer(() => {
               </div>
             </th>
             <th colSpan={6}>
-              {map(employeesStore.filtersState, (filter) => (
-                <Checkbox
-                  key={filter.id}
-                  indeterminate={filter.indeterminate}
-                  checked={filter.checked}
-                  onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
-                  {filter.name}
-                </Checkbox>
-              ))}
+              <div className={'flex justify-between align-center'}>
+                <div>
+                  {map(employeesStore.filtersState, (filter) => (
+                    <Checkbox
+                      key={filter.id}
+                      indeterminate={filter.indeterminate}
+                      checked={filter.checked}
+                      disabled={filter.disabled}
+                      onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
+                      {filter.name}
+                    </Checkbox>
+                  ))}
+                </div>
+
+                <div>
+                  <Button
+                    type={'link'}
+                    onClick={() => onChangeAllFilters(true)}>
+                    all
+                  </Button>
+                  <span> | </span>
+                  <Button
+                    type={'link'}
+                    onClick={() => onChangeAllFilters(false)}>
+                    none
+                  </Button>
+                </div>
+              </div>
             </th>
           </tr>
           <tr>
