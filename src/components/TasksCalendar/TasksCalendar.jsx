@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, memo } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { Button, Checkbox, Switch } from 'antd';
 
-import EmployeeName from './EmployeeName';
+import TR from './TR';
 import { useStores } from '../../hooks/useStores';
 
 const TasksCalendar = observer(() => {
@@ -24,25 +24,31 @@ const TasksCalendar = observer(() => {
     };
   }));
 
-  const employeeTrElem = map(employeesStore.employees, ((employee) => (
-    <tr key={employee.id}>
-      <td className={'col-username'}>
-        <EmployeeName
-          employee={employee}
-          showCheckbox={filterByEmployee}
-        />
-      </td>
+  const thWeekDaysMemoized = useMemo(() => {
+    return weekDates.map((date) => {
+      return <th key={date.isoString}>{date.formatted}</th>;
+    });
+  }, [weekDates]);
 
-      {map(weekDates, (date) => {
-        const key  = `${employee.id}-${date.isoString}`;
-        const task = employee.getTaskByDate(date.isoString);
+  const filterCheckboxesMemoized = useMemo(() => map(employeesStore.filtersState, (filter) => {
+    return (
+      <Checkbox
+        key={filter.id}
+        indeterminate={filter.indeterminate}
+        checked={filter.checked}
+        disabled={filter.disabled}
+        onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
+        {filter.name}
+      </Checkbox>
+    );
+  }), [employeesStore.filtersState]);
 
-        return employee.isSelected
-          ? <td key={key} style={{ backgroundColor: task ? task.color : 'initial' }}>{task ? task.title : '?'}</td>
-          : <td key={key}></td>;
-      })}
-    </tr>
-  )));
+  const employeeTrElem = map(employeesStore.employees, (employee) => {
+    return (
+      <TR key={employee.id} employee={employee} weekDates={weekDates} filterByEmployee={filterByEmployee} />
+    );
+
+  });
 
   const onChangeFilterByEmployee = (value) => {
     setFilterByEmployee(value);
@@ -80,16 +86,7 @@ const TasksCalendar = observer(() => {
             <th colSpan={6}>
               <div className={'flex justify-between align-center'}>
                 <div>
-                  {map(employeesStore.filtersState, (filter) => (
-                    <Checkbox
-                      key={filter.id}
-                      indeterminate={filter.indeterminate}
-                      checked={filter.checked}
-                      disabled={filter.disabled}
-                      onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
-                      {filter.name}
-                    </Checkbox>
-                  ))}
+                  {filterCheckboxesMemoized}
                 </div>
 
                 <div>
@@ -110,7 +107,7 @@ const TasksCalendar = observer(() => {
           </tr>
           <tr>
             <th>Employees</th>
-            {weekDates.map((date) => (<th key={date.isoString}>{date.formatted}</th>))}
+            {thWeekDaysMemoized}
           </tr>
         </thead>
         <tbody>
@@ -125,6 +122,10 @@ const Container = styled.div`
 
   .tasks-table {
     border: 1px solid black;
+    
+    tr {
+      content-visibility: auto;   
+    }
 
     th {
       border: 1px solid black;

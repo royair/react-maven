@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Checkbox, Avatar, Image, Tag } from 'antd';
 import { observer } from 'mobx-react';
 
 const EmployeeName = observer(({ employee = {}, showCheckbox = false, ...rest }) => {
-
   const onSelect = (e) => {
     employee.setIsSelected(e.target.checked);
   };
@@ -51,4 +50,4 @@ const Container = styled.div`
     line-height: 15px;
   }
 `;
-export default EmployeeName;
+export default memo(EmployeeName);
