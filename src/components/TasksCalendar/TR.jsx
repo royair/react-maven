@@ -15,7 +15,7 @@ const TR = observer(({ employee, filterByEmployee, weekDates, ...rest }) => {
         ? <td key={key} style={{ backgroundColor: task ? task.color : 'initial' }}>{task ? task.title : '?'}</td>
         : <td key={key}></td>;
     });
-  }, [weekDates, employee, employee.isSelected]);
+  }, [weekDates, employee]);
 
   return (
     <tr key={employee.id} {...rest}>
