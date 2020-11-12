@@ -24,25 +24,6 @@ const TasksCalendar = observer(() => {
     };
   }));
 
-  useEffect(() => {
-    !employeesStore.isReady && employeesStore.get();
-  }, [employeesStore, employeesStore.isReady]);
-
-  const onChangeFilterByEmployee = (value) => {
-    setFilterByEmployee(value);
-  };
-
-  const onChangeFilterByTeam = (teamId, e) => {
-    employeesStore.setIsSelectedByTeam({
-      teamId: teamId,
-      value: e.target.checked
-    });
-  };
-
-  const onChangeAllFilters = (value) => {
-    employeesStore.setIsSelectedToAll(value);
-  };
-
   const employeeTrElem = map(employeesStore.employees, ((employee) => (
     <tr key={employee.id}>
       <td className={'col-username'}>
@@ -62,6 +43,25 @@ const TasksCalendar = observer(() => {
       })}
     </tr>
   )));
+
+  const onChangeFilterByEmployee = (value) => {
+    setFilterByEmployee(value);
+  };
+
+  const onChangeFilterByTeam = (teamId, e) => {
+    employeesStore.setIsSelectedByTeam({
+      teamId: teamId,
+      value: e.target.checked
+    });
+  };
+
+  const onChangeAllFilters = (value) => {
+    employeesStore.setIsSelectedToAll(value);
+  };
+
+  useEffect(() => {
+    !employeesStore.isReady && employeesStore.get();
+  }, [employeesStore, employeesStore.isReady]);
 
   return (
     <Container>
@@ -137,6 +137,5 @@ const Container = styled.div`
     }
   }
 `;
-
 
 export default TasksCalendar;
