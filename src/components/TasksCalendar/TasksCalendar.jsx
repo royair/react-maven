@@ -26,7 +26,7 @@ const TasksCalendar = observer(() => {
 
   useEffect(() => {
     !employeesStore.isReady && employeesStore.get();
-  }, [employeesStore.isReady]);
+  }, [employeesStore, employeesStore.isReady]);
 
   const onChangeFilterByEmployee = (value) => {
     setFilterByEmployee(value);
