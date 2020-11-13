@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { useStores } from '../../hooks/useStores';
 
 const TDname = observer(({ employee = {}, ...rest }) => {
-  console.log('name');
   const { uiStore } = useStores();
 
   const onSelect = (e) => {

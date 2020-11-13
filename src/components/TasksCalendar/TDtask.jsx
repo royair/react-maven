@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
 const TDtask = observer(({ task, visible, ...rest }) => {
-  console.log('task');
-
   const title           = task ? task.title : '?';
   const backgroundColor = () => {
     if (!visible) return 'initial';

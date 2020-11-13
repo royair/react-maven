@@ -1,5 +1,4 @@
-import { observable, action, computed, makeAutoObservable } from 'mobx';
-import { find, filter, random, map, groupBy, forEach } from 'lodash';
+import { observable, action, makeAutoObservable } from 'mobx';
 
 export default class UIStore {
   @observable rootStore;

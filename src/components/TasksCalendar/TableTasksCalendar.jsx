@@ -9,7 +9,6 @@ import TREmployee from './TRemployee';
 import { useStores } from '../../hooks/useStores';
 
 const TableTasksCalendar = observer(() => {
-  console.log('AAA');
   const { employeesStore, uiStore } = useStores();
   const [weekDates]                 = useState(map([...Array(5)], (value, index) => {
     const startDate = moment('2020-11-01T00:00:00.000Z');
