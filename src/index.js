@@ -15,7 +15,10 @@ window.rootStore = rootStore;
 
 ReactDOM.render(
   <Router>
-    <Provider employeesStore={rootStore.employeesStore}>
+    <Provider
+      employeesStore={rootStore.employeesStore}
+      uiStore={rootStore.uiStore}
+    >
       <App />
     </Provider>
   </Router>,

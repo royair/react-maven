@@ -1,4 +1,4 @@
 // pages
 
 // components
-export { default as TasksCalendar } from './TasksCalendar/TasksCalendar';
+export { default as TasksCalendar } from './TasksCalendar/TableTasksCalendar';

@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useMemo, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import { map } from 'lodash';
 import moment from 'moment';
 import { Button, Checkbox, Switch } from 'antd';
 
-import TR from './TR';
+import TREmployee from './TRemployee';
 import { useStores } from '../../hooks/useStores';
 
-const TasksCalendar = observer(() => {
-  const { employeesStore }                      = useStores();
-  const [filterByEmployee, setFilterByEmployee] = useState(false);
-  const startDate                               = moment('2020-11-01T00:00:00.000Z');
-  const [weekDates]                             = useState(map([...Array(5)], (value, index) => {
+const TableTasksCalendar = observer(() => {
+  console.log('AAA');
+  const { employeesStore, uiStore } = useStores();
+  const [weekDates]                 = useState(map([...Array(5)], (value, index) => {
+    const startDate = moment('2020-11-01T00:00:00.000Z');
     const date      = moment(startDate)
       .add(index, 'day');
     const formatted = date.format('dddd - DD/MM/YY');
@@ -24,34 +24,8 @@ const TasksCalendar = observer(() => {
     };
   }));
 
-  const thWeekDaysMemoized = useMemo(() => {
-    return weekDates.map((date) => {
-      return <th key={date.isoString}>{date.formatted}</th>;
-    });
-  }, [weekDates]);
-
-  const filterCheckboxesMemoized = useMemo(() => map(employeesStore.filtersState, (filter) => {
-    return (
-      <Checkbox
-        key={filter.id}
-        indeterminate={filter.indeterminate}
-        checked={filter.checked}
-        disabled={filter.disabled}
-        onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
-        {filter.name}
-      </Checkbox>
-    );
-  }), [employeesStore.filtersState]);
-
-  const employeeTrElem = map(employeesStore.employees, (employee) => {
-    return (
-      <TR key={employee.id} employee={employee} weekDates={weekDates} filterByEmployee={filterByEmployee} />
-    );
-
-  });
-
   const onChangeFilterByEmployee = (value) => {
-    setFilterByEmployee(value);
+    uiStore.setFilterByEmployee(value);
   };
 
   const onChangeFilterByTeam = (teamId, e) => {
@@ -77,7 +51,7 @@ const TasksCalendar = observer(() => {
             <th>
               <div className={'flex align-center'}>
                 <Switch
-                  checked={filterByEmployee}
+                  checked={uiStore.filterByEmployee}
                   onChange={onChangeFilterByEmployee}
                   size={'small'} />
                 <span style={{ marginLeft: 10 }}>Filter by Employees</span>
@@ -86,7 +60,18 @@ const TasksCalendar = observer(() => {
             <th colSpan={6}>
               <div className={'flex justify-between align-center'}>
                 <div>
-                  {filterCheckboxesMemoized}
+                  {map(employeesStore.filtersState, (filter) => {
+                    return (
+                      <Checkbox
+                        key={filter.id}
+                        indeterminate={filter.indeterminate}
+                        checked={filter.checked}
+                        disabled={filter.disabled}
+                        onChange={(value) => onChangeFilterByTeam(filter.id, value)}>
+                        {filter.name}
+                      </Checkbox>
+                    );
+                  })}
                 </div>
 
                 <div>
@@ -107,11 +92,21 @@ const TasksCalendar = observer(() => {
           </tr>
           <tr>
             <th>Employees</th>
-            {thWeekDaysMemoized}
+            {map(weekDates, ((date) => {
+              return <th key={date.isoString}>{date.formatted}</th>;
+            }))}
           </tr>
         </thead>
         <tbody>
-          {employeeTrElem}
+          {map(employeesStore.employees, (employee) => {
+            return (
+              <TREmployee
+                key={employee.id}
+                employee={employee}
+                weekDates={weekDates}
+              />
+            );
+          })}
         </tbody>
       </table>
     </Container>
@@ -123,10 +118,6 @@ const Container = styled.div`
    
   .tasks-table {
     border: 1px solid black;
-    
-    tr {
-      content-visibility: auto;   
-    }
 
     th {
       border: 1px solid black;
@@ -140,4 +131,4 @@ const Container = styled.div`
   }
 `;
 
-export default TasksCalendar;
+export default TableTasksCalendar;
